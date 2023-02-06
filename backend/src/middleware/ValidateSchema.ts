@@ -17,12 +17,10 @@ export const Schemas = {
     task: {
         create: Joi.object<ITask>({
             title: Joi.string(),
-            description: Joi.string().allow(''),
             isDone: Joi.boolean()
         }),
         update: Joi.object<ITask>({
             title: Joi.string(),
-            description: Joi.string().allow(''),
             isDone: Joi.boolean()
         })
     }

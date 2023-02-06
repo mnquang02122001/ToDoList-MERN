@@ -7,7 +7,7 @@
         "dev": "nodemon",
         "test": "mocha --require ts-node/register --timeout 30000 --report --exit \"test/**/*.spec.ts\"",
         "build": "rm -rf dist && tsc",
-        "start": "node dist/index.js"
+        "start": "node dist/src/index.js"
     },
     "keywords": [],
     "author": "Mai Nhat Quang",

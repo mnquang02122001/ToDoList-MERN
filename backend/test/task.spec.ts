@@ -8,23 +8,19 @@ let validTaskId = '';
 let inValidTaskId = 'xtz';
 const validTask = {
     title: 'Studying IELTS',
-    description: 'Finish full 4 skills test',
     isDone: false
 };
 const updatedTask = {
     title: 'Studying TOEIC',
-    description: 'Finish full 2 skills test',
     isDone: true
 };
 const inValidTasks = [
     {
         title: '',
-        description: 'Finish full 4 skills test',
         isDone: false
     },
     {
         title: 123456,
-        description: false,
         isDone: 'Not done'
     },
     {
@@ -34,30 +30,16 @@ const inValidTasks = [
         description: 'Finish full 4 skills test'
     },
     {
-        isDone: false
-    },
-    {
-        title: 'Studying IELTS',
-        description: 'Finish full 4 skills test'
-    },
-    {
-        title: 'Studying IELTS',
-        isDone: false
-    },
-    {
-        description: 'Finish full 4 skills test',
-        isDone: false
+        title: 'Studying IELTS'
     }
 ];
 const inValidUpdatedTasks = [
     {
         title: '',
-        description: 'Finish full 4 skills test',
         isDone: false
     },
     {
         title: 123456,
-        description: false,
         isDone: 'Not done'
     }
 ];
@@ -66,21 +48,10 @@ const validUpdatedTasks = [
         title: 'Studying IELTS'
     },
     {
-        description: 'Finish full 4 skills test'
-    },
-    {
         isDone: false
     },
     {
         title: 'Studying IELTS',
-        description: 'Finish full 4 skills test'
-    },
-    {
-        title: 'Studying IELTS',
-        isDone: false
-    },
-    {
-        description: 'Finish full 4 skills test',
         isDone: false
     }
 ];
@@ -115,7 +86,6 @@ describe('Task manager', () => {
                     expect(res.status).to.be.equal(200);
                     expect(res.body.message).to.be.equal('successful');
                     expect(res.body.task.title).to.be.equal(validTask.title);
-                    expect(res.body.task.description).to.be.equal(validTask.description);
                     expect(res.body.task.isDone).to.be.equal(validTask.isDone);
                     expect(res.body.task).to.have.property('_id');
                     validTaskId = res.body.task._id;
@@ -134,7 +104,6 @@ describe('Task manager', () => {
                     expect(res.body.metadata.limit).to.be.equal(1);
                     expect(res.body.tasks.length).to.be.equal(1);
                     expect(res.body.tasks[0].title).to.be.equal(validTask.title);
-                    expect(res.body.tasks[0].description).to.be.equal(validTask.description);
                     expect(res.body.tasks[0].isDone).to.be.equal(validTask.isDone);
                     expect(res.body.tasks[0]._id).to.be.equal(validTaskId);
                     done();
@@ -157,7 +126,6 @@ describe('Task manager', () => {
                 .end((err, res) => {
                     expect(res.status).to.be.equal(200);
                     expect(res.body.task.title).to.be.equal(validTask.title);
-                    expect(res.body.task.description).to.be.equal(validTask.description);
                     expect(res.body.task.isDone).to.be.equal(validTask.isDone);
                     expect(res.body.task._id).to.be.equal(validTaskId);
                     done();
@@ -207,7 +175,6 @@ describe('Task manager', () => {
                     expect(res.status).to.be.equal(200);
                     expect(res.body.message).to.be.equal('successful');
                     expect(res.body.task.title).to.be.equal(updatedTask.title);
-                    expect(res.body.task.description).to.be.equal(updatedTask.description);
                     expect(res.body.task.isDone).to.be.equal(updatedTask.isDone);
                     expect(res.body.task._id).to.be.equal(validTaskId);
                     done();

@@ -20,6 +20,7 @@ export const TaskController = {
         try {
             const taskId = req.params.taskId;
             const task = await Task.findById(taskId);
+            if (!task) return res.status(400).json({ message: 'Task is not existed' });
             return res.status(200).json({ task });
         } catch (error) {
             return res.status(400).json({ message: error });
@@ -41,6 +42,7 @@ export const TaskController = {
         try {
             const taskId = req.params.taskId;
             const task = await Task.findByIdAndUpdate(taskId, { $set: req.body }, { new: true });
+            if (!task) return res.status(400).json({ message: 'Task is not existed' });
             return res.status(200).json({
                 message: 'successful',
                 task
@@ -52,7 +54,8 @@ export const TaskController = {
     deleteTask: async (req: Request, res: Response) => {
         try {
             const taskId = req.params.taskId;
-            await Task.findByIdAndDelete(taskId);
+            const task = await Task.findByIdAndDelete(taskId);
+            if (!task) return res.status(400).json({ message: 'Task is not existed' });
             return res.status(200).json({ message: 'successful' });
         } catch (error) {
             return res.status(400).json({ message: error });
