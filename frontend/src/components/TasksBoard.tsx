@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { MDBInputGroup, MDBBtn, MDBSpinner } from 'mdb-react-ui-kit';
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import { SnackbarOrigin } from '@mui/material/Snackbar';
 import MyToast from './MyToast';
 import Task from './Task';
 import request from '../api/request';
@@ -24,11 +24,26 @@ const TasksBoard: React.FC = () => {
     'error'
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [showToast, setShowToast] = useState<State>({
+  const [showAddToast, setShowAddToast] = useState<State>({
     open: false,
     vertical: 'top',
     horizontal: 'right',
   });
+  const [deletedTaskStatus, setDeletedTaskStatus] = useState<
+    'success' | 'error'
+  >('error');
+  const [showDeletedToast, setShowDeletedToast] = useState<State>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+  });
+  const handleClickDeletedToast = (newState: SnackbarOrigin) => {
+    setShowDeletedToast({ open: true, ...newState });
+  };
+
+  const handleCloseDeletedToast = () => {
+    setShowDeletedToast({ ...showDeletedToast, open: false });
+  };
   useEffect(() => {
     const getAllTasks = async () => {
       try {
@@ -43,12 +58,12 @@ const TasksBoard: React.FC = () => {
     };
     getAllTasks();
   }, []);
-  const handleClickToast = (newState: SnackbarOrigin) => {
-    setShowToast({ open: true, ...newState });
+  const handleClickAddToast = (newState: SnackbarOrigin) => {
+    setShowAddToast({ open: true, ...newState });
   };
 
-  const handleCloseToast = () => {
-    setShowToast({ ...showToast, open: false });
+  const handleCloseAddToast = () => {
+    setShowAddToast({ ...showAddToast, open: false });
   };
   const handleAddTask = async (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault();
@@ -64,9 +79,10 @@ const TasksBoard: React.FC = () => {
         setNewTask('');
       }
     } catch (error) {
+      setNewTaskStatus('error');
       console.log(error);
     }
-    handleClickToast({ vertical: 'top', horizontal: 'right' });
+    handleClickAddToast({ vertical: 'top', horizontal: 'right' });
   };
   return (
     <>
@@ -107,23 +123,47 @@ const TasksBoard: React.FC = () => {
         )}
         <Row>
           {tasks.map((task, index) => {
-            return <Task key={task._id} {...task} />;
+            return (
+              <Task
+                key={task._id}
+                {...task}
+                setTasks={setTasks}
+                setTotalTask={setTotalTask}
+                setDeletedTaskStatus={setDeletedTaskStatus}
+                handleClickDeletedToast={handleClickDeletedToast}
+              />
+            );
           })}
         </Row>
       </Container>
       {newTaskStatus === 'success' ? (
         <MyToast
-          {...showToast}
-          handleClose={handleCloseToast}
+          {...showAddToast}
+          handleClose={handleCloseAddToast}
           message="Add a task successfully!"
           severity={newTaskStatus}
         />
       ) : (
         <MyToast
-          {...showToast}
-          handleClose={handleCloseToast}
+          {...showAddToast}
+          handleClose={handleCloseAddToast}
           message="Fail to add a task"
           severity={newTaskStatus}
+        />
+      )}
+      {deletedTaskStatus == 'success' ? (
+        <MyToast
+          {...showDeletedToast}
+          handleClose={handleCloseDeletedToast}
+          message="Delete a task successfully"
+          severity={deletedTaskStatus}
+        />
+      ) : (
+        <MyToast
+          {...showDeletedToast}
+          handleClose={handleCloseDeletedToast}
+          message="Fail to delete a task"
+          severity={deletedTaskStatus}
         />
       )}
     </>
