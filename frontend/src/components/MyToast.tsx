@@ -7,7 +7,7 @@ export interface Props {
   open: boolean;
   handleClose: () => void;
   message: string;
-  severity: 'success' | 'error' | 'info' | 'warning';
+  severity: 'success' | 'error';
 }
 const MyToast: React.FC<Props> = ({
   vertical,
