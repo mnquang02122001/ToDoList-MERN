@@ -89,6 +89,7 @@ const TasksBoard: React.FC = () => {
       <Container
         className="bg-light rounded mt-5"
         style={{ width: '40%', height: '100%' }}
+
       >
         <Row className="mt-4">
           <h2 className="text-left">Task Manager</h2>
