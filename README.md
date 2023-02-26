@@ -45,6 +45,13 @@ Run front-end dev server from root directory:
   npm start
 ```
 
+## Run with docker
+
+```bash
+  docker-compose build
+  docker-compose up -d
+```
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file in backend
